@@ -11,7 +11,11 @@ public class EventConsumer {
 
 
        private static final Logger logger =  LoggerFactory.getLogger(EventConsumer.class);
+       private final RedisEventCacheService redisEventCacheService;
 
+       public EventConsumer(RedisEventCacheService redisEventCacheService) {
+              this.redisEventCacheService = redisEventCacheService;
+       }
 
        /**
         *  Listens for message from RabbitMq and process them
@@ -26,8 +30,9 @@ public class EventConsumer {
               try {
                      logger.info("Received event: " + event);
                      simulationProcessing(event);
+                     redisEventCacheService.cacheEvent(event);
               } catch (Exception e) {
-                     logger.error("Error while handling event: " + event.getId(),e.getMessage());
+                     logger.error("Error while handling event: " + event.getId(),e);
               }
        }
 
