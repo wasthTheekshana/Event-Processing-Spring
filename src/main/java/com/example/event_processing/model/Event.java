@@ -2,11 +2,12 @@ package com.example.event_processing.model;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +16,9 @@ public class Event {
     private String type;
     private String payload;
     private LocalDateTime timestamp;
+
+    public Event() {
+    }
 
     public int getId() {
         return id;
